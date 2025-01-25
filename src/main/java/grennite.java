@@ -47,23 +47,6 @@ public class grennite {
                 Event event = new Event(description, from, to);
                 tasks.add(event);
                 printAddTaskMessage(event);
-            } else if (input.startsWith("delete ")) {
-                try {
-                    int index = Integer.parseInt(input.substring(7)) - 1;
-                    if (index < 0 || index >= tasks.size()) {
-                        throw new IndexOutOfBoundsException();
-                    }
-                    Task removedTask = tasks.remove(index);
-                    printDeleteTaskMessage(removedTask);
-                } catch (NumberFormatException e) {
-                    System.out.println("____________________________________________________________");
-                    System.out.println(" Oops! Please provide a valid task number to delete.");
-                    System.out.println("____________________________________________________________");
-                } catch (IndexOutOfBoundsException e) {
-                    System.out.println("____________________________________________________________");
-                    System.out.println(" Oops! The task number you provided is invalid.");
-                    System.out.println("____________________________________________________________");
-                }
             } else {
                 System.out.println("____________________________________________________________");
                 System.out.println(" Oops! I don't recognize that command.");
@@ -76,14 +59,6 @@ public class grennite {
     private static void printAddTaskMessage(Task task) {
         System.out.println("____________________________________________________________");
         System.out.println(" Got it. I've added this task:");
-        System.out.println("   " + task);
-        System.out.println(" Now you have " + tasks.size() + " tasks in the list.");
-        System.out.println("____________________________________________________________");
-    }
-
-    private static void printDeleteTaskMessage(Task task) {
-        System.out.println("____________________________________________________________");
-        System.out.println(" Noted. I've removed this task:");
         System.out.println("   " + task);
         System.out.println(" Now you have " + tasks.size() + " tasks in the list.");
         System.out.println("____________________________________________________________");

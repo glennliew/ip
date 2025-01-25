@@ -1,26 +1,18 @@
-public class Task {
+public abstract class Task {
     protected String description;
     protected boolean isDone;
+    protected TaskType taskType;
 
-    public Task(String description) {
+    public Task(String description, TaskType taskType) {
         this.description = description;
         this.isDone = false;
+        this.taskType = taskType;
     }
 
-    public String getStatusIcon() {
-        return (isDone ? "X" : " "); // Mark done task with X
-    }
-
-    public void markAsDone() {
-        this.isDone = true;
-    }
-
-    public void unmarkAsDone() {
-        this.isDone = false;
-    }
+    public abstract String getStatusIcon(); // Abstract method for subclasses to define
 
     @Override
     public String toString() {
-        return "[" + getStatusIcon() + "] " + description;
+        return "[" + taskType.name().charAt(0) + "]" + (isDone ? "[X]" : "[ ]") + " " + description;
     }
 }
