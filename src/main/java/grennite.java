@@ -1,10 +1,21 @@
+import java.io.IOException;
 import java.util.ArrayList;
 import java.util.Scanner;
+import java.time.LocalDate;
+import java.time.format.DateTimeFormatter;
+import java.time.DateTimeException;
 
 public class grennite {
     private static ArrayList<Task> tasks = new ArrayList<>();
+    private static Storage storage = new Storage("./data/grennite.txt");
 
     public static void main(String[] args) {
+        try {
+            tasks = storage.load(); // Load tasks from file
+        } catch (IOException e) {
+            System.out.println("Error loading saved tasks. Could could not be found or could not be read.");
+        }
+
         System.out.println("____________________________________________________________");
         System.out.println(" Hello! I'm grennite");
         System.out.println(" What can I do for you?");
@@ -30,6 +41,7 @@ public class grennite {
                 String description = input.substring(5);
                 Todo todo = new Todo(description);
                 tasks.add(todo);
+                saveTasks();
                 printAddTaskMessage(todo);
             } else if (input.startsWith("deadline ")) {
                 String[] parts = input.substring(9).split(" /by ", 2);
@@ -46,6 +58,7 @@ public class grennite {
                 String to = timeParts[1];
                 Event event = new Event(description, from, to);
                 tasks.add(event);
+                saveTasks();
                 printAddTaskMessage(event);
             } else {
                 System.out.println("____________________________________________________________");
@@ -62,5 +75,13 @@ public class grennite {
         System.out.println("   " + task);
         System.out.println(" Now you have " + tasks.size() + " tasks in the list.");
         System.out.println("____________________________________________________________");
+    }
+
+    private static void saveTasks() {
+        try {
+            storage.save(tasks);
+        } catch (IOException e) {
+            System.out.println("Error saving tasks.");
+        }
     }
 }
