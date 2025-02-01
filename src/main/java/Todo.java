@@ -1,11 +1,15 @@
 public class Todo extends Task {
-
     public Todo(String description) {
-        super(description, TaskType.TODO);
+        super(description);
     }
 
     @Override
-    public String getStatusIcon() {
-        return isDone ? "X" : " ";
+    public String toString() {
+        return "[T]" + description;
+    }
+
+    @Override
+    public String toFileFormat() {
+        return "T | " + (isDone ? "1" : "0") + " | " + description;
     }
 }
