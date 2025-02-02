@@ -14,6 +14,13 @@ public class Parser {
         this.ui = ui;
     }
 
+    /**
+     * Parses the given input string and performs the corresponding action
+     * on the task list, then displays the result to the user.
+     * 
+     * @param input the input string
+     * @throws GrenniteException if the input is invalid
+     */
     public void processCommand(String input) throws GrenniteException {
         String[] words = input.split(" ", 2);
         String command = words[0];
@@ -49,6 +56,13 @@ public class Parser {
         }
     }
 
+    /**
+     * Parse the index of the task to be affected by the given command.
+     * 
+     * @param words the split input string
+     * @return the index of the task
+     * @throws GrenniteException if the input is invalid
+     */
     private int parseIndex(String[] words) throws GrenniteException {
         if (words.length < 2) {
             throw new GrenniteException("Invalid input, command requires an index");

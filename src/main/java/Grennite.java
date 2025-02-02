@@ -19,6 +19,17 @@ public class Grennite {
         this.storage = new Storage(filepath);
     }
 
+    /**
+     * Starts the Grennite application.
+     * 
+     * 
+     * This method will not return until the user types "bye" to exit the application.
+     * 
+     * 
+     * It displays a welcome message, then enters an infinite loop. In each iteration of the loop, it reads a command
+     * from the user and processes it. If the command is invalid, it displays an error message and continues to the next
+     * iteration.
+     */
     public void run() {
         ui.welcomeMessage();
         while (true) {
@@ -31,6 +42,15 @@ public class Grennite {
         }
     }
 
+    /**
+     * The main entry point of the Grennite application.
+     * 
+     * 
+     * The command line arguments are ignored.
+     * 
+     * 
+     * This method creates a new instance of the Grennite class and starts the application by calling the run method.
+     */
     public static void main(String[] args) {
         new Grennite("grennite.txt").run();
     }

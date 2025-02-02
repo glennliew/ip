@@ -26,6 +26,13 @@ public class TaskList {
         this.tasks = new ArrayList<>();
     }
 
+    /**
+     * Adds a todo task with the given description to the task list.
+     * 
+     * @param input the user input, which should be in the format "todo [description]"
+     * @param ui the UI object to use for displaying error messages
+     * @throws GrenniteException if the input is invalid
+     */
     public void addTodo(String input, UI ui) throws GrenniteException {
         try {
             String description = input.substring(5).trim();
@@ -40,6 +47,13 @@ public class TaskList {
         }
     }
 
+    /**
+     * Adds a deadline task with the given description and deadline to the task list.
+     * 
+     * @param input the user input, which should be in the format "deadline [description] /by [yyyy-MM-dd HHmm]"
+     * @param ui the UI object to use for displaying error messages
+     * @throws GrenniteException if the input is invalid
+     */
     public void addDeadline(String input, UI ui) throws GrenniteException {
         try {
             String description = input.substring(9).trim();
@@ -62,6 +76,13 @@ public class TaskList {
         }
     }
 
+    /**
+     * Adds an event task with the given description, date, start time, and end time to the task list.
+     * 
+     * @param input the user input, which should be in the format "event [description] /on [yyyy-MM-dd] /from [HHmm] /to [HHmm]"
+     * @param ui the UI object to use for displaying error messages
+     * @throws GrenniteException if the input is invalid
+     */
     public void addEvent(String input, UI ui) throws GrenniteException {
         try {
             String description = input.substring(6).trim();
@@ -103,6 +124,14 @@ public class TaskList {
         }
     }
 
+/**
+ * Deletes the task at the specified index from the task list.
+ * 
+ * @param index the index of the task to be deleted
+ * @param ui the UI object used to display a message about the deleted task
+ * @throws GrenniteException if the index is out of range
+ */
+
     public void deleteTask(int index, UI ui) throws GrenniteException {
         if (index < 0 || index >= tasks.size()) {
             throw new GrenniteException("Task number out of range!");
@@ -111,6 +140,14 @@ public class TaskList {
         ui.deleteTaskMessage(removedTask, tasks.size());
     }
 
+    /**
+     * Marks the task at the specified index as done or not done.
+     * 
+     * @param index the index of the task to be marked
+     * @param isDone true to mark the task as done, false to mark the task as not done
+     * @param ui the UI object used to display a message about the task being marked
+     * @throws GrenniteException if the index is out of range
+     */
     public void markTask(int index, boolean isDone, UI ui) throws GrenniteException {
         if (index < 0 || index >= tasks.size()) {
             throw new GrenniteException("Task number out of range!");

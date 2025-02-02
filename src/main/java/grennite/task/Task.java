@@ -13,18 +13,46 @@ public abstract class Task {
         this.type = type;
     }
 
+    /**
+     * Returns a string that can be used to represent the status of this task
+     * in a user interface.  The string returned will be either "X" or " ",
+     * depending on whether the task is done or not.
+     */
     public String getStatusIcon() {
         return (isDone ? "X" : " ");
     }
 
+    /**
+     * Sets the task's done status to true.
+     * This method is intended to be used by the UI to mark a task as done.
+     */
     public void markAsDone() {
         isDone = true;
     }
 
+    /**
+     * Sets the task's done status to false.
+     * This method is intended to be used by the UI to unmark a task as done.
+     */
     public void markAsNotDone() {
         isDone = false;
     }
 
+    /**
+     * Returns a Task object that represents the given line from the data file.
+     * The format of the line is expected to be:
+     * [T|D|E] [0|1] [description] [optional deadline info]
+     * 
+     * If the line is not in this format, a GrenniteException is thrown.
+     * 
+     * The optional deadline info is:
+     * [yyyy-MM-dd HHmm] for deadlines, or [yyyy-MM-dd] [HHmm] [HHmm] for events.
+     *
+     * If the line is not in this format, a GrenniteException is thrown.
+     * @param line the line from the file
+     * @return a Task object
+     * @throws GrenniteException if the line is not in the expected format
+     */
     public static Task fromFileFormat(String line) throws GrenniteException {
         String[] parts = line.split(" \\| ");
         if (parts.length < 3) {
@@ -65,6 +93,12 @@ public abstract class Task {
 
     public abstract String toFileFormat();
 
+    /**
+     * Returns a string representation of the task.
+     * The string is in the format "[X] description" where X is a space if the task is not done,
+     * or 'x' if the task is done.
+     * @return a string representation of the task
+     */
     @Override
     public String toString() {
         return "[" + getStatusIcon() + "] " + description;
