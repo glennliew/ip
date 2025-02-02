@@ -1,3 +1,6 @@
+package grennite.task;
+
+import grennite.exception.GrenniteException;
 
 public abstract class Task {
     protected String description;

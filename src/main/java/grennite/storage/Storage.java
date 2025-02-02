@@ -1,3 +1,5 @@
+package grennite.storage;
+
 import java.io.File;
 import java.io.FileWriter;
 import java.io.BufferedWriter;
@@ -5,6 +7,11 @@ import java.io.IOException;
 import java.util.List;
 import java.util.ArrayList;
 import java.util.Scanner;
+
+import grennite.task.Deadline;
+import grennite.task.Event;
+import grennite.task.Task;
+import grennite.task.Todo;
 
 public class Storage {
 
@@ -63,11 +70,10 @@ public class Storage {
         return tasks;
     }
 
-    // Save tasks from the file
     public void saveTasks(List<Task> tasks) throws IOException {
         File directory = new File(DIRECTORY_PATH);
         if (!directory.exists()) {
-            directory.mkdirs(); // Ensure directory exists before writing
+            directory.mkdirs(); 
         }
 
         BufferedWriter writer = new BufferedWriter(new FileWriter(FILE_PATH));

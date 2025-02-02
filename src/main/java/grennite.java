@@ -1,11 +1,17 @@
-public class Grennite {
+import grennite.exception.GrenniteException;
+import grennite.parser.Parser;
+import grennite.storage.Storage;
+import grennite.tasklist.TaskList;
+import grennite.ui.UI;
+
+public class grennite {
 
     private UI ui;
     private TaskList taskList;
     private Parser parser;
     private Storage storage;
 
-    public Grennite(String filepath) {
+    public grennite(String filepath) {
         this.ui = new UI();
         this.taskList = new TaskList();
         this.parser = new Parser(taskList, ui);
@@ -25,6 +31,6 @@ public class Grennite {
     }
 
     public static void main(String[] args) {
-        new Grennite("grennite.txt").run();
+        new grennite("grennite.txt").run();
     }
 }
