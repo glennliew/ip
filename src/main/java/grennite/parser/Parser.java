@@ -16,7 +16,7 @@ public class Parser {
 
     /**
      * Parses the given input string and performs the corresponding action
-     * on the task list, then displays the result to the user.
+     * on the task list then displays the result to the user.
      * 
      * @param input the input string
      * @throws GrenniteException if the input is invalid
