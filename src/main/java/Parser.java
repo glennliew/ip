@@ -39,18 +39,18 @@ public class Parser {
                 taskList.addEvent(input, ui);
                 break;
             default:
-                throw new GrenniteException("Invalid command!");
+                throw new GrenniteException("Invalid command");
         }
     }
 
     private int parseIndex(String[] words) throws GrenniteException {
         if (words.length < 2) {
-            throw new GrenniteException("Invalid input! Command requires an index.");
+            throw new GrenniteException("Invalid input, command requires an index");
         }
         try {
             return Integer.parseInt(words[1]) - 1;
         } catch (NumberFormatException e) {
-            throw new GrenniteException("Invalid task number!");
+            throw new GrenniteException("Invalid task number");
         }
     }
 }

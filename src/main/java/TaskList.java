@@ -34,7 +34,8 @@ public class TaskList {
             String description = input.substring(9).trim();
             String[] parts = description.split(" /by ");
             if (parts.length < 2 || parts[0].isEmpty() || parts[1].isEmpty()) {
-                throw new GrenniteException("Invalid deadline format. Use: deadline [description] /by [yyyy-MM-dd HHmm]");
+                throw new GrenniteException(
+                        "Invalid deadline format. Use: deadline [description] /by [yyyy-MM-dd HHmm]");
             }
 
             try {
@@ -64,7 +65,7 @@ public class TaskList {
             try {
                 date = LocalDate.parse(parts[1], DATE_FORMAT);
             } catch (DateTimeParseException e) {
-                throw new GrenniteException("Invalid date format! Use: yyyy-MM-dd (e.g., 2025-01-30)");
+                throw new GrenniteException("Invalid date format! Use: yyyy-MM-dd (e.g., 2025-02-01)");
             }
 
             // Validate start and end times
@@ -86,7 +87,8 @@ public class TaskList {
             ui.addTaskMessage(event, tasks.size());
 
         } catch (StringIndexOutOfBoundsException e) {
-            throw new GrenniteException("Invalid input! Use: event [description] /on [yyyy-MM-dd] /from [HHmm] /to [HHmm]");
+            throw new GrenniteException(
+                    "Invalid input! Use: event [description] /on [yyyy-MM-dd] /from [HHmm] /to [HHmm]");
         }
     }
 

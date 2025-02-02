@@ -34,7 +34,7 @@ public class UI {
     public void taskListMessage(TaskList tasks) {
         System.out.println("__________________________________________");
         if (tasks.isEmpty()) {
-            System.out.println(" You're all caught!");
+            System.out.println(" You're all caught up!");
         } else {
             System.out.println(" Here's your task list:");
             tasks.printTasks();
