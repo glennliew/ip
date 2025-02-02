@@ -1,44 +1,33 @@
-import java.time.LocalDate;
 import java.time.LocalDateTime;
-import java.time.LocalTime;
 import java.time.format.DateTimeFormatter;
-import java.time.format.DateTimeParseException;
 
-public class Deadline extends Task {
-    private LocalDateTime by;
+public class Deadline extends Task{
+    protected LocalDateTime deadline;
+    private static final DateTimeFormatter OUTPUT_FORMAT = DateTimeFormatter.ofPattern("MMM dd yyyy, hh:mma");
+    private static final DateTimeFormatter INPUT_FORMAT = DateTimeFormatter.ofPattern("yyyy-MM-dd HHmm");
 
-    public Deadline(String description, String by) {
-        super(description);
-        try {
-            if (by.contains(" ")) {
-                DateTimeFormatter dateTimeFormatter = DateTimeFormatter.ofPattern("d/M/yyyy HHmm");
-                this.by = LocalDateTime.parse(by, dateTimeFormatter);
-            } else {
-                LocalDate date = LocalDate.parse(by);
-                this.by = date.atStartOfDay();
-            }
-        } catch (DateTimeParseException e) {
-            this.by = LocalDate.now().atStartOfDay();
-        }
+    public Deadline(String description, String deadline) {
+        super(description, TaskType.DEADLINE);
+        this.deadline = LocalDateTime.parse(deadline, INPUT_FORMAT);
     }
 
-    @Override
-    public String toString() {
-        // Format the date in the required format (e.g., "Dec 15 2023")
-        DateTimeFormatter formatter = DateTimeFormatter.ofPattern("MMM dd yyyy");
-        String formattedDate = by.format(formatter);
-        return "[D] " + description + " (by: " + formattedDate + ")";
+    public Deadline(String description, String deadline, boolean isDone) {
+        super(description, TaskType.DEADLINE);
+        this.deadline = LocalDateTime.parse(deadline, INPUT_FORMAT);
+        this.isDone = isDone;
+    }
+
+    public static Deadline fromFileFormat(String description, String dateTime) {
+        return new Deadline(description, dateTime);
     }
 
     @Override
     public String toFileFormat() {
-        DateTimeFormatter formatter;
-        // Use ISO date format if time is midnight, else use the original input pattern
-        if (by.toLocalTime().equals(LocalTime.MIDNIGHT)) {
-            formatter = DateTimeFormatter.ofPattern("yyyy-MM-dd");
-        } else {
-            formatter = DateTimeFormatter.ofPattern("d/M/yyyy HHmm");
-        }
-        return "D | " + (isDone ? "1" : "0") + " | " + description + " | " + by.format(formatter);
+        return "D | " + (isDone ? "1" : "0") + " | " + description + " | " + deadline.format(INPUT_FORMAT);
+    }
+
+    @Override
+    public String toString() {
+        return "[D]" + super.toString() + " (by: " + deadline.format(OUTPUT_FORMAT) + ")";
     }
 }
