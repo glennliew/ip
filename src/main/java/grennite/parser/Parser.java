@@ -51,6 +51,12 @@ public class Parser {
             case "event":
                 taskList.addEvent(input, ui);
                 break;
+            case "find":
+                if (words.length < 2 || words[1].trim().isEmpty()) {
+                    throw new GrenniteException("Invalid input! Use: find [keyword]");
+                }
+                taskList.findTasks(words[1].trim(), ui);
+                break;
             default:
                 throw new GrenniteException("Invalid command");
         }
