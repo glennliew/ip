@@ -7,6 +7,7 @@ import java.time.format.DateTimeFormatter;
 import java.time.format.DateTimeParseException;
 import java.util.ArrayList;
 import java.io.IOException;
+import java.util.List;
 
 import grennite.exception.GrenniteException;
 import grennite.ui.UI;
@@ -141,5 +142,15 @@ public class TaskList {
         for (int i = 0; i < tasks.size(); i++) {
             System.out.println(" " + (i + 1) + ". " + tasks.get(i));
         }
+    }
+
+    public void findTasks(String keyword, UI ui) {
+        ArrayList<Task> matchingTasks = new ArrayList<>();
+        for (Task task : tasks) {
+            if (task.getDescription().toLowerCase().contains(keyword.toLowerCase())) {
+                matchingTasks.add(task);
+            }
+        }
+        ui.findTaskMessage(matchingTasks);
     }
 }
