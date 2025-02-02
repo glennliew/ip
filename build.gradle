@@ -27,13 +27,20 @@ test {
     }
 }
 
+jar {
+    manifest {
+        attributes 'Main-Class': 'grennite'
+    }
+}
+
 application {
-    mainClass.set("grennite")
+    mainClass.set("grennite.Grennite")
 }
 
 shadowJar {
-    archiveBaseName = "duke"
+    archiveBaseName = "grennite"
     archiveClassifier = null
+    archiveFileName = "grennite.jar"
 }
 
 run{
