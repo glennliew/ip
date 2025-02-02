@@ -1,57 +1,81 @@
-import java.io.*;
+import java.io.File;
+import java.io.FileWriter;
+import java.io.BufferedWriter;
+import java.io.IOException;
+import java.util.List;
 import java.util.ArrayList;
+import java.util.Scanner;
 
 public class Storage {
-    private String filePath;
 
-    public Storage(String filePath) {
-        this.filePath = filePath;
+    private String filepath;
+    private static final String DIRECTORY_PATH = "./data";
+    private static final String FILE_PATH = DIRECTORY_PATH + "/grennite.txt";
+
+    public Storage(String filepath) {
+        this.filepath = filepath;
     }
 
-    // Load tasks from file
-    public ArrayList<Task> load() throws IOException {
-        ArrayList<Task> tasks = new ArrayList<>();
-        File file = new File(filePath);
+    public List<Task> loadTasks() throws IOException {
+        List<Task> tasks = new ArrayList<>();
+        File file = new File(FILE_PATH);
         if (!file.exists()) {
-            file.getParentFile().mkdirs(); // Create directories if they don't exist
-            file.createNewFile(); // Create a new file if not found
-            return tasks; // Return an empty list
+            return tasks; 
         }
 
-        BufferedReader br = new BufferedReader(new FileReader(file));
-        String line;
-        while ((line = br.readLine()) != null) {
+        Scanner scanner = new Scanner(file);
+
+
+        while (scanner.hasNextLine()) {
+            String line = scanner.nextLine();
             String[] parts = line.split(" \\| ");
-            String type = parts[0];
-            boolean isDone = parts[1].equals("1");
-            String description = parts[2];
 
-            Task task;
-            if (type.equals("T")) {
-                task = new Todo(description);
-            } else if (type.equals("D")) {
-                task = new Deadline(description, parts[3]);
-            } else if (type.equals("E")) {
-                task = new Event(description, parts[3], parts[4]);
-            } else {
-                continue; // Skip invalid lines
+
+            try {
+                if (parts.length < 3) {
+                    throw new IllegalArgumentException("Invalid task format: " + line);
+                }
+
+                String type = parts[0];
+                boolean isDone = parts[1].equals("1");
+                String description = parts[2];
+
+                switch (type) {
+                    case "T":
+                        tasks.add(new Todo(description, isDone));
+                        break;
+                    case "D":
+                        if (parts.length < 4) throw new IllegalArgumentException("Invalid Deadline format: " + line);
+                        tasks.add(new Deadline(description, parts[3], isDone));
+                        break;
+                    case "E":
+                        if (parts.length < 6) throw new IllegalArgumentException("Invalid Event format: " + line);
+                        tasks.add(new Event(description, parts[3], parts[4], parts[5], isDone));
+                        break;
+                    default:
+                        throw new IllegalArgumentException("Unknown task type: " + type);
+                }
+            } catch (IllegalArgumentException e) {
+                System.out.println("Skipped corrupted line: " + e.getMessage());
             }
-            if (isDone) {
-                task.markAsDone();
-            }
-            tasks.add(task);
         }
-        br.close();
+        scanner.close();
         return tasks;
     }
 
-    // Save tasks to file
-    public void save(ArrayList<Task> tasks) throws IOException {
-        BufferedWriter bw = new BufferedWriter(new FileWriter(filePath));
-        for (Task task : tasks) {
-            bw.write(task.toFileFormat());
-            bw.newLine();
+    // Save tasks from the file
+    public void saveTasks(List<Task> tasks) throws IOException {
+        File directory = new File(DIRECTORY_PATH);
+        if (!directory.exists()) {
+            directory.mkdirs(); // Ensure directory exists before writing
         }
-        bw.close();
+
+        BufferedWriter writer = new BufferedWriter(new FileWriter(FILE_PATH));
+        for (Task task : tasks) {
+            writer.write(task.toFileFormat());
+            writer.newLine();
+        }
+        writer.close();
+        System.out.println("Tasks saved to: " + new File(FILE_PATH).getAbsolutePath());
     }
 }
