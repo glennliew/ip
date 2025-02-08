@@ -15,12 +15,11 @@ public class UI {
         scanner = new Scanner(System.in);
     }
 
-/**
- * Reads a command from the standard input.
- * 
- * @return the command as a string input by the user
- */
-
+    /**
+     * Reads a command from the standard input.
+     * 
+     * @return the command as a string input by the user
+     */
     public String readCommand() {
         return scanner.nextLine();
     }
@@ -29,21 +28,20 @@ public class UI {
      * Displays a welcome message to the user.
      * The message is displayed when the program starts.
      */
-    public void welcomeMessage() {
-        System.out.println("__________________________________________");
-        System.out.println(" Hi! I'm Grennite, your personal task manager!");
-        System.out.println(" How can I help you?");
-        System.out.println("__________________________________________");
+    public String welcomeMessage() {
+        return "__________________________________________\n" 
+        + " Hello! I'm Grennite\n" + " What can I do for you today?\n" 
+        + "__________________________________________";
     }
 
     /**
      * Displays a goodbye message to the user.
      * The message is displayed when the user types "bye" to exit the program.
      */
-    public void exitMessage() {
-        System.out.println("__________________________________________");
-        System.out.println(" Bye! See you again soon!");
-        System.out.println("__________________________________________");
+    public String exitMessage() {
+        return "__________________________________________\n" 
+        + " Bye! Hope to see you again soon!\n" 
+        + "__________________________________________";
     }
 
     /**
@@ -52,10 +50,11 @@ public class UI {
      * is invalid.
      * @param message the error message
      */
-    public void errorMessage(String message) {
-        System.out.println("__________________________________________");
-        System.out.println(" Error: " + message);
-        System.out.println("__________________________________________");
+    public String errorMessage(String message) {
+        return "__________________________________________\n" 
+        + "Error: " 
+        + message 
+        + "\n__________________________________________";
     }
 
     /**
@@ -65,15 +64,17 @@ public class UI {
      * current task list.
      * @param tasks the task list to display
      */
-    public void taskListMessage(TaskList tasks) {
-        System.out.println("__________________________________________");
+    public String taskListMessage(TaskList tasks) {
         if (tasks.isEmpty()) {
-            System.out.println(" You're all caught up!");
+            return "__________________________________________\n" 
+            + "You're all caught up!" 
+            + "\n__________________________________________";
         } else {
-            System.out.println(" Here's your task list:");
-            tasks.printTasks();
+            return "__________________________________________\n" 
+            + "Here's your task list:\n" 
+            + tasks 
+            + "\n__________________________________________";
         }
-        System.out.println("__________________________________________");
     }
 
     /**
@@ -83,12 +84,15 @@ public class UI {
      * @param task the task that was added
      * @param taskCount the current number of tasks in the list after addition
      */
-
-    public void addTaskMessage(Task task, int taskCount) {
-        System.out.println("__________________________________________");
-        System.out.println(" Adding task:" + task);
-        System.out.println(" You currently have " + taskCount + " tasks.");
-        System.out.println("__________________________________________");
+    public String addTaskMessage(Task task, int taskCount) {
+        return "__________________________________________\n" +
+         " Adding task:\n" 
+         + " " 
+         + task 
+         + "\n" 
+         + " You currently have " 
+         + taskCount 
+         + " tasks.\n" + "__________________________________________";
     }
 
     /**
@@ -98,12 +102,12 @@ public class UI {
      * @param task the task that was removed
      * @param taskCount the current number of tasks in the list after removal
      */
-
-    public void deleteTaskMessage(Task task, int taskCount) {
-        System.out.println("__________________________________________");
-        System.out.println(" Removing task:" + task);
-        System.out.println(" You currently have " + taskCount + " tasks.");
-        System.out.println("__________________________________________");
+    public String deleteTaskMessage(Task task, int taskCount) {
+        return "__________________________________________\n" 
+        + " Removing task:" + task + " You currently have " 
+        + taskCount 
+        + " tasks.\n" 
+        + "__________________________________________";
     }
 
     /**
@@ -111,10 +115,10 @@ public class UI {
      * 
      * @param task the task that was marked as done
      */
-    public void markTaskMessage(Task task) {
-        System.out.println("__________________________________________");
-        System.out.println(" Yay! You just completed:" + task);
-        System.out.println("__________________________________________");
+    public String markTaskMessage(Task task) {
+        return "__________________________________________\n" 
+        + " Yay! You just completed:" + task 
+        + "\n__________________________________________";
     }
 
     /**
@@ -122,22 +126,29 @@ public class UI {
      *
      * @param task the task that was unmarked as done
      */
-    public void unmarkTaskMessage(Task task) {
-        System.out.println("__________________________________________");
-        System.out.println(" You have yet to complete complete:" + task);
-        System.out.println("__________________________________________");
+    public String unmarkTaskMessage(Task task) {
+        return"__________________________________________\n" 
+        + "You have yet to complete complete:" + task + 
+        "\n__________________________________________";
     }
 
-    public void findTaskMessage(List<Task> tasks) {
-        System.out.println("__________________________________________");
+    /**
+     * Displays a message to the user indicating the tasks found by the search.
+     *
+     * @param tasks the list of tasks found
+     * @return the message to be displayed
+     */
+    public String findTaskMessage(List<Task> tasks) {
+        StringBuilder message = new StringBuilder("__________________________________________\n");
         if (tasks.isEmpty()) {
-            System.out.println(" No matching tasks found!");
+            message.append(" No matching tasks found!\n");
         } else {
-            System.out.println(" Here are the matching tasks in your list:");
+            message.append(" Here are the matching tasks in your list:\n");
             for (int i = 0; i < tasks.size(); i++) {
-                System.out.println((i + 1) + "." + tasks.get(i));
+                message.append((i + 1)).append(".").append(tasks.get(i)).append("\n");
             }
         }
-        System.out.println("__________________________________________");
+        message.append("__________________________________________");
+        return message.toString();
     }
 }

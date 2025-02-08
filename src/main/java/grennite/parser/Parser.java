@@ -14,6 +14,13 @@ public class Parser {
         this.ui = ui;
     }
 
+     /**
+     * Represents the list of supported commands in the Grennite application.
+     */
+    public enum Command {
+        BYE, LIST, TODO, DEADLINE, EVENT, MARK, UNMARK, DELETE, FIND_DATE, FIND, CLEAR;
+    }
+    
     /**
      * Parses the given input string and performs the corresponding action
      * on the task list then displays the result to the user.
@@ -21,7 +28,7 @@ public class Parser {
      * @param input the input string
      * @throws GrenniteException if the input is invalid
      */
-    public void processCommand(String input) throws GrenniteException {
+    public String processCommand(String input) throws GrenniteException {
         String[] words = input.split(" ", 2);
         String command = words[0];
 
@@ -60,6 +67,7 @@ public class Parser {
             default:
                 throw new GrenniteException("Invalid command");
         }
+                return command;
     }
 
     /**
