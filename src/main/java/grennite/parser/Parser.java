@@ -62,6 +62,7 @@ public class Parser {
             throw new GrenniteException("Waiting for your next command!");
         }
 
+
         Command command = Parser.parseCommand(input);
         String response;
 
