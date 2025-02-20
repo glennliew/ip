@@ -1,13 +1,12 @@
 package grennite;
 
+import java.io.IOException;
+
 import grennite.exception.GrenniteException;
 import grennite.parser.Parser;
 import grennite.storage.Storage;
 import grennite.tasklist.TaskList;
 import grennite.ui.UI;
-import javafx.animation.PauseTransition;
-import javafx.application.Platform;
-import javafx.util.Duration;
 
 public class Grennite {
 
@@ -17,38 +16,35 @@ public class Grennite {
     private Storage storage;
     private String commandType;
 
-    public Grennite(String filepath) {
+    public Grennite(String filepath) throws GrenniteException, IOException {
         this.ui = new UI();
-        this.taskList = new TaskList();
-        this.parser = new Parser(taskList, ui);
-        this.storage = new Storage(filepath);
+        this.storage = new Storage(filepath); 
+        this.taskList = new TaskList(storage, ui);
+        this.parser = new Parser(taskList, ui, storage);
         this.commandType = "";
     }
 
-    public Grennite() {
+    public Grennite() throws GrenniteException, IOException {
         this("grennite.txt");
     }
 
     /**
      * Starts the Grennite application.
-     * 
-     * 
-     * This method will not return until the user types "bye" to exit the
-     * application.
-     * 
-     * 
-     * It displays a welcome message, then enters an infinite loop. In each
-     * iteration of the loop, it reads a command
-     * from the user and processes it. If the command is invalid, it displays an
-     * error message and continues to the next
-     * iteration.
-     */
-    public void run() {
+     * Displays a welcome message and continuously processes user commands
+     * until "bye" is entered.
+          * @throws IOException 
+          */
+         public void run() throws IOException {
         ui.welcomeMessage();
         while (true) {
             try {
-                String input = ui.readCommand();
-                parser.processCommand(input);
+                String input = ui.readCommand().trim();
+                String response = parser.processCommand(input);
+                System.out.println(response); // Display response to user
+                
+                if (input.equalsIgnoreCase("bye")) {
+                    break; // Exit after showing the message
+                }
             } catch (GrenniteException e) {
                 ui.errorMessage(e.getMessage());
             }
@@ -57,34 +53,37 @@ public class Grennite {
 
     /**
      * The main entry point of Grennite.
-     * 
-     * 
-     * The command line arguments are ignored.
-     * 
-     * 
-     * This method creates a new instance of the Grennite class and starts the
-     * application by calling the run method.
      */
     public static void main(String[] args) {
-
-        new Grennite("grennite.txt").run();
+        try {
+            new Grennite("grennite.txt").run();
+        } catch (GrenniteException | IOException e) {
+            System.err.println("Error initializing Grennite: " + e.getMessage());
+        }
     }
 
     /**
      * Generates a response for the user's chat message.
+     * 
+     * @param input User's command input.
+     * @return Response message.
+     * @throws IOException 
      */
-    public String getResponse(String input) {
+         public String getResponse(String input) throws IOException {
         try {
             String result = parser.processCommand(input);
-            // For simplicity, set the command type to the first word
-            String[] tokens = input.trim().split(" ", 2);
-            commandType = tokens[0];
+            commandType = input.trim().split(" ", 2)[0]; // Extract first word as command type
             return result;
         } catch (GrenniteException e) {
             return "Error: " + e.getMessage();
         }
     }
 
+    /**
+     * Returns the last executed command type.
+     * 
+     * @return Last command type as a string.
+     */
     public String getCommandType() {
         return commandType;
     }

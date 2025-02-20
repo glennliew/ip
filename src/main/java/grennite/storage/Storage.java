@@ -33,8 +33,8 @@ public class Storage {
      * @return a list of tasks
      * @throws IOException if there is an error reading the file
      */
-    public List<Task> loadTasks() throws IOException {
-        List<Task> tasks = new ArrayList<>();
+    public ArrayList<Task> loadTasks() throws IOException {
+        ArrayList<Task> tasks = new ArrayList<>();
         File file = new File(FILE_PATH);
         if (!file.exists()) {
             return tasks; 

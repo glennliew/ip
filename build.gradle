@@ -1,4 +1,3 @@
-
 plugins {
     id 'java'
     id 'application'
@@ -52,8 +51,10 @@ shadowJar {
     archiveClassifier = null
 }
 
-run{
+run {
+    jvmArgs += "-Dprism.order=sw"
     standardInput = System.in
+    enableAssertions = true
 }
 
 

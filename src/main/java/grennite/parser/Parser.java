@@ -1,90 +1,84 @@
 package grennite.parser;
 
+import java.io.IOException;
+
 import grennite.exception.GrenniteException;
 import grennite.tasklist.TaskList;
 import grennite.ui.UI;
+import grennite.storage.Storage;
+
 
 public class Parser {
 
     private TaskList taskList;
     private UI ui;
+    private Storage storage;
 
-    public Parser(TaskList taskList, UI ui) {
+    public Parser(TaskList taskList, UI ui, Storage storage) {
         this.taskList = taskList;
         this.ui = ui;
+        this.storage = storage;
     }
 
-     /**
+    /**
      * Represents the list of supported commands in the Grennite application.
      */
     public enum Command {
         BYE, LIST, TODO, DEADLINE, EVENT, MARK, UNMARK, DELETE, FIND_DATE, FIND, CLEAR;
     }
-    
-    /**
-     * Parses the given input string and performs the corresponding action
-     * on the task list then displays the result to the user.
-     * 
-     * @param input the input string
-     * @throws GrenniteException if the input is invalid
-     */
-    public String processCommand(String input) throws GrenniteException {
-        String[] words = input.split(" ", 2);
-        String command = words[0];
 
-        switch (command) {
-            case "bye":
-                ui.exitMessage();
-                System.exit(0);
-                break;
-            case "list":
-                taskList.listTasks(ui);
-                break;
-            case "mark":
-                taskList.markTask(parseIndex(words), true, ui);
-                break;
-            case "unmark":
-                taskList.markTask(parseIndex(words), false, ui);
-                break;
-            case "delete":
-                taskList.deleteTask(parseIndex(words), ui);
-                break;
-            case "todo":
-                taskList.addTodo(input, ui);
-                break;
-            case "deadline":
-                taskList.addDeadline(input, ui);
-                break;
-            case "event":
-                taskList.addEvent(input, ui);
-                break;
-            case "find":
-                if (words.length < 2 || words[1].trim().isEmpty()) {
-                    throw new GrenniteException("Invalid input! Use: find [keyword]");
-                }
-                taskList.findTasks(words[1].trim(), ui);
-                break;
-            default:
-                throw new GrenniteException("Invalid command");
+    /**
+     * Parses the given command string and returns a valid Command enum.
+     * 
+     * @param input the user input string
+     * @return the parsed Command
+     * @throws GrenniteException if the command is not recognized
+     */
+    public static Command parseCommand(String input) throws GrenniteException {
+        String commandKeyword = extractCommandKeyword(input);
+        try {
+            return Command.valueOf(commandKeyword);
+        } catch (IllegalArgumentException e) {
+            throw new GrenniteException("Sorry! I don't recognize that command.");
         }
-                return command;
+    }
+
+    private static String extractCommandKeyword(String input) {
+        return input.split(" ")[0].toUpperCase();
     }
 
     /**
-     * Parse the index of the task to be affected by the given command.
+     * Processes the user command, performs the corresponding action, and returns a response.
      * 
-     * @param words the split input string
-     * @return the index of the task
+     * @param input the user input string
+     * @return the response message
      * @throws GrenniteException if the input is invalid
+     * @throws IOException 
      */
-    private int parseIndex(String[] words) throws GrenniteException {
-        if (words.length < 2) {
-            throw new GrenniteException("Invalid input, command requires an index");
+    public String processCommand(String input) throws GrenniteException, IOException {
+        if (input.isEmpty()) {
+            throw new GrenniteException("Waiting for your next command!");
         }
-        try {
-            return Integer.parseInt(words[1]) - 1;
-        } catch (NumberFormatException e) {
-            throw new GrenniteException("Invalid task number");
+
+        Command command = Parser.parseCommand(input);
+        String response;
+
+        switch (command) {
+            case BYE -> response = ui.exitMessage();
+            case LIST -> response = ui.showTaskList(taskList.getTasks());
+            case MARK -> response = taskList.markTask(input, true);
+            case UNMARK -> response = taskList.markTask(input, false);
+            case DELETE -> response = taskList.deleteTask(input);
+            case TODO -> response = taskList.addTodo(input);
+            case DEADLINE -> response = taskList.addDeadline(input);
+            case EVENT -> response = taskList.addEvent(input);
+            default -> throw new GrenniteException("Invalid command!");
         }
+
+        if (command != Command.LIST && command != Command.BYE) {
+            storage.saveTasks(taskList.getTasks());
+        }
+
+        return response;
     }
 }
