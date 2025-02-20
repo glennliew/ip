@@ -17,8 +17,10 @@ public class Grennite {
     private String commandType;
 
     public Grennite(String filepath) throws GrenniteException, IOException {
+        assert filepath != null && !filepath.isEmpty() : "Filepath should not be null or empty";
+
         this.ui = new UI();
-        this.storage = new Storage(filepath); 
+        this.storage = new Storage(filepath);
         this.taskList = new TaskList(storage, ui);
         this.parser = new Parser(taskList, ui, storage);
         this.commandType = "";
@@ -32,16 +34,17 @@ public class Grennite {
      * Starts the Grennite application.
      * Displays a welcome message and continuously processes user commands
      * until "bye" is entered.
-          * @throws IOException 
-          */
-         public void run() throws IOException {
+     * 
+     * @throws IOException
+     */
+    public void run() throws IOException {
         ui.welcomeMessage();
         while (true) {
             try {
                 String input = ui.readCommand().trim();
                 String response = parser.processCommand(input);
                 System.out.println(response); // Display response to user
-                
+
                 if (input.equalsIgnoreCase("bye")) {
                     break; // Exit after showing the message
                 }
@@ -67,9 +70,9 @@ public class Grennite {
      * 
      * @param input User's command input.
      * @return Response message.
-     * @throws IOException 
+     * @throws IOException
      */
-         public String getResponse(String input) throws IOException {
+    public String getResponse(String input) throws IOException {
         try {
             String result = parser.processCommand(input);
             commandType = input.trim().split(" ", 2)[0]; // Extract first word as command type
