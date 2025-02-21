@@ -4,7 +4,6 @@ import java.util.Scanner;
 import java.util.ArrayList;
 import java.util.List;
 
-import grennite.tasklist.TaskList;
 import grennite.task.Task;
 
 public class UI {
@@ -42,7 +41,7 @@ public class UI {
         return "__________________________________________\n"
                 + " Bye! Hope to see you again soon!\n"
                 + "__________________________________________";
-                
+
     }
 
     /**

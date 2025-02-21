@@ -55,7 +55,7 @@ public class Parser {
      * @throws GrenniteException if the input is invalid
      * @throws IOException 
      */
-    public void processCommand(String input) throws GrenniteException {
+    public String processCommand(String input) throws GrenniteException, IOException {
         assert input != null && !input.isBlank() : "Command input should not be null or empty";
     
         if (input.isEmpty()) {

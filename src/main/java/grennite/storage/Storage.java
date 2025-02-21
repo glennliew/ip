@@ -15,12 +15,10 @@ import grennite.task.Todo;
 
 public class Storage {
 
-    private String filepath;
     private static final String DIRECTORY_PATH = "./data";
     private static final String FILE_PATH = DIRECTORY_PATH + "/grennite.txt";
 
     public Storage(String filepath) {
-        this.filepath = filepath;
     }
 
     /**
