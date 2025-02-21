@@ -51,6 +51,11 @@ public class DialogBox extends HBox {
         dialog.getStyleClass().add("reply-label");
     }
 
+    /**
+     * Changes the style of the dialog box based on the command type.
+     * Supported command types are "AddCommand", "ChangeMarkCommand", and "DeleteCommand".
+     * @param commandType The type of command
+     */
     private void changeDialogStyle(String commandType) {
         switch (commandType) {
             case "AddCommand":

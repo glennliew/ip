@@ -160,4 +160,11 @@ public class UI {
         message.append("__________________________________________");
         return message.toString();
     }
+
+    public String duplicateTaskMessage(Task task) {
+        return "__________________________________________\n"
+                + "It seems this task is already in your list!\n"
+                + "Duplicate task: " + task
+                + "\n__________________________________________";
+    }
 }

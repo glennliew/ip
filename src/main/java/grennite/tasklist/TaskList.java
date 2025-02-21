@@ -35,6 +35,9 @@ public class TaskList {
             throw new GrenniteException("Oops! The description of a todo cannot be empty.");
         }
         String description = input.substring(5).trim();
+        if (tasks.stream().anyMatch(t -> t.getDescription().equalsIgnoreCase(description))) {
+            return ui.duplicateTaskMessage(new Todo(description));
+        }
         Task task = new Todo(description);
         tasks.add(task);
         return ui.addTaskMessage(task, tasks.size());
