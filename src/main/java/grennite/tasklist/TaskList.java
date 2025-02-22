@@ -35,6 +35,9 @@ public class TaskList {
             throw new GrenniteException("Oops! The description of a todo cannot be empty.");
         }
         String description = input.substring(5).trim();
+        if (tasks.stream().anyMatch(t -> t.getDescription().equalsIgnoreCase(description))) {
+            return ui.duplicateTaskMessage(new Todo(description));
+        }
         Task task = new Todo(description);
         tasks.add(task);
         return ui.addTaskMessage(task, tasks.size());
@@ -53,7 +56,8 @@ public class TaskList {
         }
 
         try {
-            LocalDateTime deadlineDateTime = LocalDateTime.parse(parts[1], DateTimeFormatter.ofPattern("yyyy-MM-dd HHmm"));
+            LocalDateTime deadlineDateTime = LocalDateTime.parse(parts[1],
+                    DateTimeFormatter.ofPattern("yyyy-MM-dd HHmm"));
             Task task = new Deadline(parts[0].trim(), deadlineDateTime.toString());
             tasks.add(task);
             return ui.addTaskMessage(task, tasks.size());

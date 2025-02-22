@@ -163,4 +163,17 @@ public class UI {
         }
         return output.toString().trim();
     }
+
+    /**
+     * Displays a message to the user indicating that a task that is already in the task list
+     * is being attempted to be added again.
+     *
+     * @param task the task that is being attempted to be added
+     */
+        public String duplicateTaskMessage(Task task) {
+        return "__________________________________________\n"
+                + "It seems this task is already in your list!\n"
+                + "Duplicate task: " + task
+                + "\n__________________________________________";
+    }
 }
