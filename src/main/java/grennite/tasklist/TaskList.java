@@ -137,14 +137,25 @@ public class TaskList {
         }
     }
 
-    public String findTasks(String keyword) {
-        ArrayList<Task> matchingTasks = new ArrayList<>();
-        for (Task task : tasks) {
-            if (task.getDescription().toLowerCase().contains(keyword.toLowerCase())) {
-                matchingTasks.add(task);
+    /**
+     * Finds tasks that contain the specified keyword in their description.
+     *
+     * @param input The user input containing the keyword to search for.
+     */
+    public String findTasksByKeyword(String input) {
+        try {
+            String keyword = input.split(" ", 2)[1].trim();
+            ArrayList<Task> matchingTasks = new ArrayList<>();
+
+            for (Task task : tasks) {
+                if (task.getDescription().toLowerCase().contains(keyword.toLowerCase())) {
+                    matchingTasks.add(task);
+                }
             }
+            return ui.showMatchingTasks(matchingTasks, keyword);
+        } catch (ArrayIndexOutOfBoundsException e) {
+            return ui.errorMessage("Oops! Please enter a keyword after 'find'. Example: find book");
         }
-        return ui.findTaskMessage(matchingTasks);
     }
 
     private int parseTaskNumber(String input) throws GrenniteException {

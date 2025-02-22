@@ -1,2 +1,5 @@
 E | 0 | meeting | 2025-04-23 | 12:00 | 14:00
 T | 0 | meeting
+T | 0 | homework
+T | 0 | homework
+T | 0 | meeting

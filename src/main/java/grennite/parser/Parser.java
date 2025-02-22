@@ -7,7 +7,6 @@ import grennite.tasklist.TaskList;
 import grennite.ui.UI;
 import grennite.storage.Storage;
 
-
 public class Parser {
 
     private TaskList taskList;
@@ -48,20 +47,20 @@ public class Parser {
     }
 
     /**
-     * Processes the user command, performs the corresponding action, and returns a response.
+     * Processes the user command, performs the corresponding action, and returns a
+     * response.
      * 
      * @param input the user input string
      * @return the response message
      * @throws GrenniteException if the input is invalid
-     * @throws IOException 
+     * @throws IOException
      */
     public String processCommand(String input) throws GrenniteException, IOException {
         assert input != null && !input.isBlank() : "Command input should not be null or empty";
-    
+
         if (input.isEmpty()) {
             throw new GrenniteException("Waiting for your next command!");
         }
-
 
         Command command = Parser.parseCommand(input);
         String response;
@@ -75,6 +74,7 @@ public class Parser {
             case TODO -> response = taskList.addTodo(input);
             case DEADLINE -> response = taskList.addDeadline(input);
             case EVENT -> response = taskList.addEvent(input);
+            case FIND -> response = taskList.findTasksByKeyword(input);
             default -> throw new GrenniteException("Invalid command!");
         }
 

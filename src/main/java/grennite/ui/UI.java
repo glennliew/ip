@@ -142,22 +142,25 @@ public class UI {
     }
 
     /**
-     * Displays a message to the user indicating the tasks found by the search.
+     * Displays tasks that match the given keyword.
      *
-     * @param tasks the list of tasks found
-     * @return the message to be displayed
+     * @param matchingTasks The list of tasks that match the keyword.
+     * @param keyword       The keyword used for the search.
      */
-    public String findTaskMessage(List<Task> tasks) {
-        StringBuilder message = new StringBuilder("__________________________________________\n");
-        if (tasks.isEmpty()) {
-            message.append(" No matching tasks found!\n");
+    public String showMatchingTasks(ArrayList<Task> matchingTasks, String keyword) {
+        assert matchingTasks != null : "Matching tasks list should not be null";
+        assert keyword != null && !keyword.isBlank() : "Search keyword should not be null or empty";
+
+        StringBuilder output = new StringBuilder();
+        output.append("Here are the matching tasks for \"").append(keyword).append("\":\n");
+
+        if (matchingTasks.isEmpty()) {
+            output.append("  No matching tasks found.");
         } else {
-            message.append(" Here are the matching tasks in your list:\n");
-            for (int i = 0; i < tasks.size(); i++) {
-                message.append((i + 1)).append(".").append(tasks.get(i)).append("\n");
+            for (int i = 0; i < matchingTasks.size(); i++) {
+                output.append((i + 1)).append(". ").append(matchingTasks.get(i)).append("\n");
             }
         }
-        message.append("__________________________________________");
-        return message.toString();
+        return output.toString().trim();
     }
 }
