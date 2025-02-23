@@ -8,6 +8,7 @@ import java.util.List;
 import java.util.ArrayList;
 import java.util.Scanner;
 
+import grennite.exception.GrenniteException;
 import grennite.task.Deadline;
 import grennite.task.Event;
 import grennite.task.Task;
@@ -30,8 +31,9 @@ public class Storage {
      * 
      * @return a list of tasks
      * @throws IOException if there is an error reading the file
+     * @throws GrenniteException 
      */
-    public ArrayList<Task> loadTasks() throws IOException {
+    public ArrayList<Task> loadTasks() throws IOException, GrenniteException {
         ArrayList<Task> tasks = new ArrayList<>();
         File file = new File(FILE_PATH);
         if (!file.exists()) {
@@ -61,7 +63,7 @@ public class Storage {
                         break;
                     case "D":
                         if (parts.length < 4) throw new IllegalArgumentException("Invalid Deadline format: " + line);
-                        tasks.add(new Deadline(description, parts[3], isDone));
+                        tasks.add(new Deadline(description, parts[3]));
                         break;
                     case "E":
                         if (parts.length < 6) throw new IllegalArgumentException("Invalid Event format: " + line);

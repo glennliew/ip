@@ -1,5 +1,5 @@
 E | 0 | meeting | 2025-04-23 | 12:00 | 14:00
-T | 1 | meeting
-T | 0 | homework
-T | 0 | homework
-T | 0 | homeowrk
+T | 0 | math algebra homework 5
+T | 0 | chemistry mcq
+T | 0 | cs2103t iP submission
+E | 0 | run | 2025-02-22 | 16:00 | 18:00
