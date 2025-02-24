@@ -1,4 +1,0 @@
-T | 0 | buy groceries
-D | 0 | return book | 2024-02-23
-E | 0 | team meeting | 2023-12-01 14:00 | 2023-12-01 16:00
-T | 0 | buy stuff
