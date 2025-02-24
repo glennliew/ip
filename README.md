@@ -27,7 +27,7 @@ Java 17 installed on device
 ## Features
 ### ToDo - Adds a basic todo to your task list.
 ```
-    todo <DESCRIPTION>
+todo <DESCRIPTION>
 ```
 
 ### Deadline - Adds a task that needs to be done before the given date-time.
