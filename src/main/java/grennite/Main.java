@@ -29,9 +29,9 @@ public class Main extends Application {
             // Set stage properties
             stage.setScene(scene);
             stage.setTitle("Grennite - Your Task Assistant");
-            stage.setMinHeight(220);
+            stage.setMinHeight(620);
             stage.setMinWidth(417);
-            stage.setResizable(false);
+            stage.setResizable(true);
 
             // Inject Grennite instance into controller
             fxmlLoader.<MainWindow>getController().setGrennite(grennite);

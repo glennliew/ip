@@ -4,3 +4,4 @@ T | 0 | chemistry mcq
 T | 0 | cs2103t iP submission
 E | 0 | run | 2025-02-22 | 16:00 | 18:00
 T | 0 | math
+T | 0 | walk
