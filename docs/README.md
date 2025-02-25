@@ -69,7 +69,7 @@ delete <TASK_NUMBER>
 find <KEYWORD>
 ```
 
-Exit - Exits Grennite
+### Exit - Exits Grennite
 
 ```
 bye
